@@ -3,19 +3,22 @@ package com.bridgelabz.comutationemployeewage;
 public class EmployeeWage {
 
     public static void main(String[] args) {
-        System.out.println("Welcome to Employee Wage Computation");
-
         int wagePerHour = 20;
-        int fullDayHour = 8;
+        int fullTimeHour = 8;
+        int partTimeHour = 4;
         int dailyWage = 0;
-        int employeeCheck1 = (int) Math.floor(Math.random() * 10) % 2;
 
-        if (employeeCheck1 == 1) {
-            dailyWage = fullDayHour * wagePerHour;
-            System.out.println("Employee is present");
+        int employeeCheck = (int) (Math.random() * ((2 + 0) + 1));
+
+        if (employeeCheck == 2) {
+            dailyWage = fullTimeHour * wagePerHour;
+            System.out.println("Employee is present full time");
+        } else if (employeeCheck == 1) {
+            dailyWage = partTimeHour * wagePerHour;
+            System.out.println("Employee is present half time");
         } else {
             System.out.println("Employee is absent");
         }
-        System.out.println("Total wage of employee is: " + dailyWage);
+        System.out.println("Employee total wage is: " + dailyWage);
     }
 }
