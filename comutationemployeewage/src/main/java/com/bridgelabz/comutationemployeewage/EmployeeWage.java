@@ -1,37 +1,54 @@
 package com.bridgelabz.comutationemployeewage;
 
+import java.util.Random;
+
 public class EmployeeWage {
-    static int WagePerHour = 20;
-    static int FullTimeHour = 8;
-    static int PartTimeHour = 4;
+    final static int FullTimeWorker = 1;
+    final static int PartTimeWorker = 2;
 
-    public static void main(String[] args) {
-        int totalWorkingDays = 0;
-        int totalHour = 0;
-        int totalDailyWage = 0;
-        while (totalHour < 100 && totalWorkingDays < 20) {
-            int employeeCheck = (int) (Math.random() * ((2 + 0) + 1));
-            totalWorkingDays++;
+    public static void program(String company, int EmpRatePerHour, int TotalnoWorkingDay,
+            int EmpTotalHours) {
+        int totalworkingdays = 0;
+        int empHours = 0;
+        int empWage = 0;
+        int Totalemphrs = 0;
 
-            switch (employeeCheck) {
-                case 2:
-                    totalHour = totalHour + FullTimeHour;
-                    totalDailyWage = totalDailyWage + FullTimeHour * WagePerHour;
-                    System.out.println("Employee is present full time: " + totalDailyWage);
+        int Total_emp_wage = 0;
+        while (Totalemphrs <= EmpTotalHours && totalworkingdays <= TotalnoWorkingDay) {
+            totalworkingdays++;
+            Random random = new Random();
+
+            int empCheck = random.nextInt(2);
+
+            switch (empCheck) {
+                case FullTimeWorker:
+                    empHours = 8;
+
                     break;
-                case 1:
-                    totalHour = totalHour + PartTimeHour;
-                    totalDailyWage = totalDailyWage + PartTimeHour * WagePerHour;
-                    System.out.println("Employee is present half time: " + totalDailyWage);
+                case PartTimeWorker:
+                    empHours = 4;
+
                     break;
                 default:
-                    System.out.println("Employee is absent: " + totalDailyWage);
-
-                    System.out.println("Working Days is: " + totalWorkingDays + " Hours: " + totalHour);
-
-                    System.out.println("Employee total wage for month is: " + totalDailyWage);
+                    empHours = 0;
             }
+            Totalemphrs = Totalemphrs + empHours;
+            empWage = empHours * EmpRatePerHour;
+            System.out.println("Daily emp wage is" + empWage);
+            Total_emp_wage = empWage + Totalemphrs;
+            Total_emp_wage = Total_emp_wage * TotalnoWorkingDay;
+
         }
+        System.out.println("The Monthly Wage of Employee of " + company + " is " + Total_emp_wage);
     }
 
+    public static void main(String[] args) {
+
+        program("Vedanta", 20, 20, 200);
+
+        program("TCS", 30, 30, 300);
+
+        program("Wipro", 50, 20, 220);
+
+    }
 }
