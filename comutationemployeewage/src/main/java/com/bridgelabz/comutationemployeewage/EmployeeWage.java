@@ -1,36 +1,47 @@
 package com.bridgelabz.comutationemployeewage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class EmployeeWage implements IEmployeeWage {
     // instance variables
     int noOfCompanies, index;
-    CompanyEmpWage[] companies; // declaring array
+    ArrayList<CompanyEmpWage> companies; // ArrayList declaration
+    // hasmap Declaration using variable String=company name,Integer is
+    // FullMonthWage
+    HashMap<String, Integer> fullDailyWage;
 
-    // Constructor for the class EmployeeWage
-    public EmployeeWage(int noOfCompanies) {
-        this.noOfCompanies = noOfCompanies;
-        companies = new CompanyEmpWage[noOfCompanies];
-        index = 0;
+    // contructor for EmployeeWage class
+    public EmployeeWage() {
+        companies = new ArrayList<>();// arrylist
+        fullDailyWage = new HashMap<>(); // Hash Map
     }
 
     // Assigning to the array
     public void addCompany(String companyName, int wagePerHr, int maxWorkingDays, int maxWorkingHrs) {
-        companies[index++] = new CompanyEmpWage(companyName, wagePerHr, maxWorkingDays, maxWorkingHrs);
+        CompanyEmpWage company = new CompanyEmpWage(companyName, wagePerHr, maxWorkingDays, maxWorkingHrs);
+        companies.add(company);
+        fullDailyWage.put(companyName, 0);
     }
 
-    // Computation of company wage
+    // print company wage
     int companyWage(CompanyEmpWage companyEmpWage) {
-        System.out.println("* Computation of total wage of " + companyEmpWage.COMPANY_NAME + " employee:");
+        System.out.println("* Total wage of " + companyEmpWage.COMPANY_NAME + " employee:");
+
         int workingHrs, totalWage = 0;
         for (int day = 1, totalWorkingHrs = 0; day <= companyEmpWage.MAX_WORKING_DAYS
                 && totalWorkingHrs <= companyEmpWage.MAX_WORKING_HRS; day++, totalWorkingHrs += workingHrs) {
             int empType = generateEmployeeType(); // random value(0,1,2)
             workingHrs = getWorkingHrs(empType); // Full time, Part time or Absent
             int wage = workingHrs * companyEmpWage.WAGE_PER_HR;
+            fullDailyWage.put(companyEmpWage.COMPANY_NAME, wage); // insert an entry in the map. V put(Object key,
+                                                                  // Object value)
             totalWage += wage;
             System.out.print("\n Day " + day + ": Working hrs =" + workingHrs + ", Total Wage =" + wage
                     + ", Total working hour =" + totalWorkingHrs + "\n");
+            System.out.println("                                                                        ");
+            printotalwage();
         }
         return totalWage;
     }
@@ -60,11 +71,19 @@ public class EmployeeWage implements IEmployeeWage {
         }
     }
 
+    public void printotalwage() {
+        System.out.println(" * Companies daily wage details for one employee :");
+        for (String companyName : fullDailyWage.keySet()) // Returns a Set view of the keys contained in this map
+            System.out.println(companyName + " company daily wage per emp : " + fullDailyWage.get(companyName));
+    }
+
     public static void main(String[] args) {
-        EmployeeWage emp = new EmployeeWage(3); // creating an object and declaring number of companies = 3
+        System.out.println("Welcome to Employee Wage Computation. \n");
+        EmployeeWage emp = new EmployeeWage(); // creating an object and declaring number of companies = 3
         emp.addCompany("Bridgeabz", 20, 20, 100);
-        emp.addCompany("TATA", 34, 23, 130);
-        emp.addCompany("BAJAJ", 10, 15, 99);
+        emp.addCompany("VEDANTA", 34, 23, 130);
+        emp.addCompany("TCS", 10, 15, 99);
+        emp.printotalwage();
         emp.companyWage();
     }
 }
